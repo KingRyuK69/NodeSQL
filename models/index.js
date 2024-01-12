@@ -2,16 +2,11 @@ const dbConfig = require("../config/dbConfig");
 // console.log("dbConfig", dbConfig);
 const { Sequelize, DataTypes } = require("sequelize");
 
-const sequelize = new Sequelize(
-  dbConfig.database,
-  dbConfig.user,
-  dbConfig.password,
-  {
-    host: dbConfig.host,
-    dialect: dbConfig.dialect,
-    operatorsAliases: false,
-  }
-);
+const sequelize = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
+  host: dbConfig.host,
+  dialect: dbConfig.dialect,
+  // operatorsAliases: false,
+});
 
 sequelize
   .authenticate()
@@ -22,19 +17,15 @@ sequelize
     console.log("Error" + err);
   });
 
-const database = {};
+const db1 = {};
 
-database.Sequelize = Sequelize;
-database.sequelize = sequelize;
+db1.Sequelize = Sequelize;
+db1.sequelize = sequelize;
 
-// database.users = require("../controllers/userController")(sequelize, DataTypes);
-database.users_info = require("../controllers/infoController")(
-  sequelize,
-  DataTypes
-);
+db1.users_info = require("./User_infoModel")(sequelize, DataTypes);
 
-database.sequelize.sync({ force: false }).then(() => {
-  console.log("Re-synced!");
-});
+// db1.sequelize.sync({ force: false }).then(() => {
+//   console.log("Re-synced!");
+// });
 
-module.exports = database;
+module.exports = db1;

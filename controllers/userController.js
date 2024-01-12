@@ -53,7 +53,7 @@ exports.login = (req, res) => {
     if (err) throw err;
     if (results.length > 0) {
       if (req.body.password === results[0].password) {
-        const token = jwt.sign({ id: results[0].id }, "secretkey", {
+        const token = jwt.sign({ id: results[0].id }, "Sohom@2023", {
           expiresIn: "1h",
         });
         res.json({ message: "Login Success", token });
